@@ -1,0 +1,18 @@
+
+using namespace std;
+
+vec4 main(Texture2d tex0) {
+
+  vec2 uv = fragment(getVertexTexCoord());
+
+  // this line will make our uvs mirrored
+  // it will convert it into a number that goes 0 to 1 to 0
+  // abs() will turn our negative numbers positive
+  vec2 mirrorUvs = abs(fract(uv * 2.0) - 0.5);
+
+
+  // Use the mirrored texture coordinates and sample the texture
+  vec4 tex = tex0.sample(mirrorUvs);
+
+  return tex;
+}

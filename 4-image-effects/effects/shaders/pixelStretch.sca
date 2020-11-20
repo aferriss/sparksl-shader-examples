@@ -1,0 +1,15 @@
+
+using namespace std;
+
+vec4 main(Texture2d tex0) {
+
+  vec2 uv = fragment(getVertexTexCoord());
+  
+  // Lets take a column of pixels from the middle of stretch them across
+  vec2 stretch = vec2(0.5, uv.y);
+
+  // Use the mirrored texture coordinates and sample the texture
+  vec4 tex = tex0.sample(stretch);
+
+  return tex;
+}

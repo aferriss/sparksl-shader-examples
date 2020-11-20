@@ -16,6 +16,7 @@
     - [Color](#color)
     - [Texture Coordinates](#texture-coordinates)
     - [Uniforms](#uniforms)
+    - [Image Effects](#image-effects)
   - [Converting a ShaderToy](#converting-a-shadertoy)
 
 
@@ -270,6 +271,19 @@ This project shows how to send values to a shader from the patch / material edit
 - Touch Position
 - From Script
 - Textures
+
+### Image Effects
+
+- Adjust HSV
+- Box Blur
+- Displacement Map
+- Gaussian Blur
+- Mirror
+- Pixel Stretch
+- Sine Distort
+- Invert
+- Mosaic
+- RGB Separation
 
 ## Converting a ShaderToy
 

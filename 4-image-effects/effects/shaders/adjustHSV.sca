@@ -1,0 +1,31 @@
+// Import the builtin colorspaces package
+#import <color_spaces>
+
+using namespace std;
+
+vec4 main(Texture2d tex) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // First we sample the texture
+  vec4 color = tex.sample(uv);
+
+  // Convert the rgb to hsv color space
+  color.rgb = rgbToHsv(color.rgb);
+
+  // Adjust the hue
+  color.r += 0.5;
+  color.r = fract(color.r);
+
+  // Adjust the saturation
+  color.g *= 0.9;
+
+  // Adjust the brightness
+  color.b = color.b * color.b;
+
+  color.rgb = clamp(color.rgb, 0.0, 1.0);
+
+  // Convert back to rgb
+  color.rgb = hsvToRgb(color.rgb);
+
+  return color;
+}

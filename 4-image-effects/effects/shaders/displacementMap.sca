@@ -1,0 +1,23 @@
+using namespace std;
+
+vec4 main(Texture2d tex0, Texture2d tex1, float amt) {
+
+  vec2 uv = fragment(getVertexTexCoord());
+
+  // get the camera as a vec4 
+  auto cam = tex0.sample(uv);
+
+  // lets get the average color of the rgb values
+  float avg = dot(cam.rgb, vec3(0.33333));
+
+  // then spread it between -1 and 1
+  avg = avg * 2.0 - 1.0;
+
+  // we will displace the image by the average color times the amt of displacement 
+  float disp = avg * amt;
+
+  // displacement works by moving the texture coordinates of one image with the colors of another image
+  // add the displacement to the texture coordinates
+  return tex1.sample(uv + disp);
+
+}

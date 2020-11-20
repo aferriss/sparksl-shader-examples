@@ -1,0 +1,37 @@
+using namespace std;
+
+vec4 main(Texture2d tex0){
+
+  vec2 uv = fragment(getVertexTexCoord());
+
+  // a single pass blur works by sampling all the neighbor pixels and averaging them up
+  // this is somewhat inefficient because we have to sample the texture 9 times -- texture2D calls are slow :( 
+  // check out the two-pass-blur example for a better blur approach
+
+  // spread controls how far away from the center we should pull a sample from
+  // you will start to see artifacts if you crank this up too high
+  float spread = 2.0;
+
+  // Size of a single "texel" in our image
+  vec2 texelSize = 1.0 / tex0.size;
+
+  // create our offset variable by multiplying the size of a texel with spread
+  vec2 offset = texelSize * spread;
+
+  // get all the neighbor pixels!
+  vec4 tex = tex0.sample(uv); // middle middle -- the actual texel / pixel
+  tex += tex0.sample(uv + vec2(-offset.x, -offset.y)); // top left
+  tex += tex0.sample(uv + vec2(0.0, -offset.y)); // top middle
+  tex += tex0.sample(uv + vec2(offset.x, -offset.y)); // top right
+  tex += tex0.sample(uv + vec2(-offset.x, 0.0)); //middle left
+  tex += tex0.sample(uv + vec2(offset.x, 0.0)); //middle right
+  tex += tex0.sample(uv + vec2(-offset.x, offset.y)); // bottom left
+  tex += tex0.sample(uv + vec2(0.0, offset.y)); // bottom middle
+  tex += tex0.sample(uv + vec2(offset.x, offset.y)); // bottom right
+
+  // we added 9 textures together, so we will divide by 9 to average them out and move the values back into a 0 - 1 range
+  tex /= 9.0;
+
+  return tex;
+
+}
