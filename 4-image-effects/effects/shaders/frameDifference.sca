@@ -1,0 +1,14 @@
+using namespace std;
+
+vec4 main(Texture2d cur, Texture2d past) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  vec4 a = cur.sample(uv);
+  vec4 b = past.sample(uv);
+
+  a -= b;
+
+  a *= 2.0;
+
+  return a.rgb1;
+}

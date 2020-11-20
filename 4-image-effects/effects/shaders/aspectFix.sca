@@ -1,0 +1,32 @@
+using namespace std;
+
+// How to correctly size your textures to fit in the width or height of the screen
+// From https://www.shadertoy.com/view/XlG3DW
+vec4 main(Texture2d tex) {
+  vec2 uv = fragment(getVertexTexCoord());
+  vec2 fragCoord = uv * getRenderTargetSize();
+  vec2 sourceRes = getRenderTargetSize();
+  vec2 targetRes = tex.size;
+  vec2 ratio = sourceRes / targetRes;
+
+  // If this is true we will try and fit the tex to the width of the screen, if false it will fit the height
+  bool fitWidth = true;
+
+
+  if(fitWidth){
+    fragCoord -= 0.5 * targetRes * max(vec2(ratio.x-ratio.y, ratio.y-ratio.x), 0.0);
+    fragCoord /= targetRes*ratio.x;
+  } else {
+    fragCoord -= 0.5 * targetRes *min(vec2(ratio.x-ratio.y, ratio.y-ratio.x), 0.0);
+    fragCoord /= targetRes*ratio.y;
+  }
+
+  auto color = tex.sample(fragCoord);
+
+  // A fix for weird alpha bug with the nyancat gif
+  if(color.a < 0.9){
+    color = vec4(0.0).xxx1;
+  }
+
+  return color;
+}
