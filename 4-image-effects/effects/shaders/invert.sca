@@ -1,0 +1,11 @@
+// Use the std namespace
+using namespace std;
+
+// Send a texture to the shader
+vec4 main(Texture2d tex) {
+  // Sample the uvs
+  vec2 uv = fragment(getVertexTexCoord());
+
+  // Invert the colors
+  return 1.0 - tex.sample(uv).xyz0;
+}

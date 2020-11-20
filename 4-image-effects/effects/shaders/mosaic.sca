@@ -1,0 +1,14 @@
+using namespace std;
+
+vec4 main(Texture2d tex) {
+
+  vec2 uv = fragment(getVertexTexCoord());
+
+  float tiles = 25.0;
+
+  // mosiaic-ize the uv's
+  vec2 mosaicUvs = floor(uv * tiles) / tiles;
+
+  // Sample the texture with the mosaic uv's
+  return  tex.sample(mosaicUvs);
+}

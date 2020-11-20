@@ -1,0 +1,17 @@
+using namespace std;
+
+vec4 main(Texture2d tex) {
+
+  vec2 uv = fragment(getVertexTexCoord());
+
+  float offset = 0.02;
+
+  // Sample the texture three times with different offsets
+  auto red = tex.sample(uv + offset);
+  auto green = tex.sample(uv);
+  auto blue = tex.sample(uv - offset);
+
+  // Use just one channel from each texture
+  return vec4(red.r, green.g, blue.b, 1.0);
+}
+
