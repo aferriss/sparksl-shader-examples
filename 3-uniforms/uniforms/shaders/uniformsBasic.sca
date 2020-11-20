@@ -1,0 +1,12 @@
+// We can create uniforms for our shader by adding in parameters to the main function
+// The at sign param lines below will allow you to set defaults, and make those parameters show up in the patch and material editors.
+// 
+// NOTE!!!!!!! Boolean and integer types cannot be used as uniforms!!!!!!!
+//
+// @param[default=#00FFFFFF] color
+// @param[default=0.2,min=0.0,max=1.0] offset
+// @return color
+vec4 main(vec4 color, float offset) {
+  // We'll just return the two values added together
+  return color + offset;
+}

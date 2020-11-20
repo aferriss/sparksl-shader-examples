@@ -1,0 +1,20 @@
+
+vec4 main() {
+  // We need to wrap our getTexCoords function with the fragment function.
+  // This will force the calculation to happen in the fragment shader. 
+  // If we don't do this, spark will try and move the calculation to the vertex shader (which we don't want)
+  vec2 uv = fragment(std::getVertexTexCoord());
+  
+  // lets multiply the coordinates by a factor of 10
+  uv *= 10.0;
+
+  // use the fract function so that the values always fluctuate between 0 - 1
+  // fract will return whatever number is to the right of the decimal point
+  // it is built in to SparkSL
+  uv = fract(uv);
+
+  // Return the colors
+  return vec4(uv, 0.5, 1.0 );
+
+
+}

@@ -1,0 +1,21 @@
+// In this example we'll make a checker pattern
+vec4 main() {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // We need to get the size of our screen. SparkSL provides the getRenderTargetSize for this purpose
+  vec2 resolution = std::getRenderTargetSize();
+
+  // correct the aspect ration on the x direction
+  uv.x *= resolution.x / resolution.y;
+
+  // how many tiles to make across the y axis
+  float tiles = 50.0;
+  
+  // multiply both coords by the amount of tiles and floor them so that we have tex coords that just count up, 0, 1, 2, 3, 4 ...
+  float color = floor(uv.x * tiles) + floor(uv.y * tiles);
+
+  // mod the col by 2.0 so that it alternates between 0 and 1
+  color = mod(color, 2.0);
+
+  return vec4(color, color, color, 1.0);
+}

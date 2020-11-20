@@ -1,0 +1,17 @@
+// In this example we'll send a texture to the shader
+vec4 main(std::Texture2d tex) {
+
+  // Get the uv's
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // We will get the color from the texture by using the sample function. 
+  // The glsl equvalent to this is texture2D(tex, uv);
+  vec4 color = tex.sample(uv);
+
+  // Invert the color's rgb
+  color.rgb = 1.0 - color.rgb;
+
+  // Return the color
+  return color;
+
+}

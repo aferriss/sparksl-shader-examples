@@ -1,0 +1,21 @@
+vec4 main() {
+  // Get our uv's
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // A common thing in spark filters is a little vignette
+  // This is just one way to make a vignette, but there are many more
+
+  // First we need to move our vignette to the center of the screen
+  // Play with these numbers to see how the vignette moves around the screen
+  uv -= vec2(0.5, 0.5);
+
+  // Create a vignette gradient
+  float vignette = length(uv);
+
+  // Using the smoothstep function, we will shape the gradient
+  // Play around with these numbers to see how the vignette changes
+  vignette = smoothstep(0.7, 0.3, vignette);
+
+  // Return the vignette color
+  return vec4(vignette);
+}

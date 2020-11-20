@@ -1,0 +1,11 @@
+// In this example we'll send the touch position to the shader
+// @param[default=vec2(0.5)] touch
+// @return color
+vec4 main(vec2 touch) {
+
+  // We need to normalize the touch position to be between 0-1
+  vec2 touchNorm = touch / std::getRenderTargetSize();
+
+  // We'll just return the touch position as colors
+  return vec4(touchNorm, 0.0, 1.0);
+}

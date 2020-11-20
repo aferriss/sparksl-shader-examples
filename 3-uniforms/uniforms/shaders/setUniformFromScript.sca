@@ -1,0 +1,22 @@
+//==============================================================================
+// Welcome to shader authoring in Spark AR Studio!
+//==============================================================================
+
+#import <gradients>
+#import <sdf>
+
+// Entry point of the shader code asset
+//
+// @param[default=#00FFFFFF] color1
+// @param[default=#0000C0FF] color2
+// @param[default=5.0,min=4.0,max=9.0] armCount
+// @return color
+vec4 main(vec4 color1, vec4 color2, float armCount) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+  vec4 color = mix(color1, color2, std::gradientHorizontal(uv));
+  auto sdf = std::sdfStarSharp(vec2(0.5, 0.5), 0.25, 0.50, floor(armCount));
+  float dist = sdf(uv);
+  float edge = fwidth(dist);
+  float alpha = smoothstep(-edge, +edge, dist);
+  return mix(color, color.rgb0, alpha);
+}
