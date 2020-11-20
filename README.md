@@ -11,8 +11,12 @@ Currently a work in progress, feel free to get in touch if you've got any questi
 
 ### Contents
 
+![demonstration](demo.png)
+
 
 Each project contains a spark file with a few different example shaders contained within. Just open up the patch editor and connect the output of the shader assets to the Device Output patch to try different effects.
+
+
 
 
 #### Color
