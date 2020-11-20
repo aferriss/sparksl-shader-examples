@@ -99,7 +99,7 @@ vec4 colorA = vec4(0.1, 0.5, 0.2, 1.0);
 vec4 colorB = coloA.br01; // vec4(0.2, 0.1, 0.0, 1.0);
 ```
 
-### Uniforms
+### Setting Uniforms
 
 ```glsl
 // GLSL
@@ -112,8 +112,8 @@ uniform float time;
 // SparkSL doesn't currently support boolean, integer, or string type uniforms. Passing them in will break spark and may crash your filter
 
 // Time and colorA will appear as uniforms in the patch and material editors
-void main(float time, vec4 colorA){
-
+vec4 main(float time, vec4 colorA){
+    return fract(colorA + time);
 }
 
 // To set a uniform from a script you can use the material.setParameter() function
@@ -137,16 +137,82 @@ M.findFirst("material0).then( m => {
 uniform sampler2D myTex;
 varying vec2 uv;
 
+
+// In glsl we pass the texture in as a sampler2D use the texture2D function to access it.
+
 void main(){
     vec4 color = texture2D(myTex, uv);
     gl_FragColor = color;
 }
 
 // SparkSL
+// In SparkSL, each texture has .sample() as part of it's member functions.
+// We also need to pass in the function as a uniform via the parameters in the main function declaration
 vec4 main(std::Texture2d myTex){
     vec2 uv = fragment(std::getVertexTexCoord());
     vec4 color = myTex.sample(uv) ;
     return color;
+}
+```
+
+### Auto keyword
+
+```glsl
+// GLSL does not have the auto keyword
+
+// SparkSL includes the auto keyword (similar to c++) for automatically determining variable type
+auto color = vec4(1.0, 0.0, 0.2, 1.0);
+```
+
+### Resolution
+
+```glsl
+// GLSL doesn't have any builtin way to access texture or render target resolution.
+// Typically they are passed in as uniforms
+
+uniform vec2 resolution;
+uniform vec2 textureSize;
+
+// SparkSL has a couple different resolution functions
+// You can access the render target size by using std::getRenderTargetSize()
+// You can access a texture's size by using texture.size
+
+vec4 main(std::Texture2d tex){
+    vec2 renderTargetSize = std::getRenderTargetSize();
+    vec2 textureSize = tex.size;
+    // ...
+}
+```
+
+### FragCoords
+
+```glsl
+//GLSL
+// In glsl you can access fragment coordinates by using gl_FragCoord
+
+uniform vec2 resolution;
+
+void main(){
+    vec2 uv = gl_FragCoord / resolution;
+    gl_FragColor = vec4(uv, 0.0, 1.0);
+}
+
+// SparkSL
+// In SparkSl there is currently no keyword for fragcoords.
+// In a fullscreen shader you can use:
+
+vec2 fragCoord = fragment(floor(std::getRenderTargetSize() * std::getVertexTexCoord()));
+
+// In a non-fullscreen shader you can do:
+
+using namespace std;
+void main(out Position, out Color){
+    Position = getModelViewProjectionMatrix() * getVertexPosition();
+
+    vec2 fragCoord = fragment(Position.xy / Position.w);
+    fragCoord = fragCoord * 0.5 + 0.5;
+
+    Color = vec4(fragCoord / getRenderTargetSize(), 0.0, 1.0);
 }
 ```
 
@@ -185,3 +251,15 @@ This project shows how to send values to a shader from the patch / material edit
 - Touch Position
 - From Script
 - Textures
+
+## Converting a ShaderToy
+
+Many of the functions in shadertoy have sparkSL equivalents. Here's a table with some of them listed out. Some things like delta time, date, and mouse position are not listed here. However they could be computed and passed as uniforms to your shader.
+
+| Shadertoy                | SparkSL                    |
+| ------------------------ | -------------------------- |
+| iTime                    | std::getTime()             |
+| iResolution.xy           | std::getRenderTargetSize() |
+| iChannelResolution[0].xy | texture.size               |
+| fragCoord                | [see above](#FragCoords)   |
+| texture()                | myTex.sample(uv)           |
