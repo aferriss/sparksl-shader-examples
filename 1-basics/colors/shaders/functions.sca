@@ -1,0 +1,22 @@
+
+// unlike javascript, functions in glsl must have a return type specified as the first word of the function
+// common return types are float, int, vec2, vec3, and vec4
+vec3 addVec3(vec3 a, vec3 b){
+  vec3 sum;
+  sum = a + b;
+  return sum;
+}
+
+
+vec4 main() {
+
+  // define two vec3's 
+  vec3 colorA = vec3(0.1, 0.2, 0.65);
+  vec3 colorB = vec3(0.7, 0.3, 0.1);
+
+  // add them together using our function!
+  // this is a silly function because we can easily add vec4s in glsl just using the + operator
+  vec3 color = addVec3(colorA, colorB);
+
+  return vec4(color, 1.0);
+}

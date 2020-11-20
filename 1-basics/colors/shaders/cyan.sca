@@ -1,0 +1,10 @@
+vec4 main() {
+
+  // Putting different values in different slots can generate other colors
+  // Red + Green = Yellow
+  // Red + Blue = Magenta
+  // Green + Blue = Cyan
+  vec4 cyan = vec4(0.0, 0.8, 0.9, 1.0);
+
+  return cyan;
+}

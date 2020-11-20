@@ -1,0 +1,13 @@
+// the fragment shader has one main function
+// main returns a vec4 variable called which will contain all the colors of our shader
+// the word vec4 means that the function returns a four component value
+// this function is typically always called main()
+vec4 main() {
+
+  // lets just send the color red out
+  // colors in shaders go from 0.0 to 1.0
+  // SparkSL is very finicky about the decimal points 
+  // The returned vec4 is expecting color to be in order of red, green, blue, alpha
+  // the line below will make a solid red color for every pixel, with full alpha
+  return vec4(1.0, 0.0, 0.0, 1.0);
+}

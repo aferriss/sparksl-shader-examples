@@ -1,0 +1,10 @@
+vec4 main() {
+
+  // Writing the same value to the red, green, and blue slots will create a grayscale value
+  vec4 gray = vec4(0.5, 0.5, 0.5, 1.0);
+
+  // You could also make the same color like this, try uncommenting and seeing the difference
+  gray = vec4(vec3(0.6), 1.0);
+
+  return gray;
+}
