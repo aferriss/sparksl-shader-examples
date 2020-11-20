@@ -1,5 +1,24 @@
 # SparkSL Shader Examples
 
+
+- [SparkSL Shader Examples](#sparksl-shader-examples)
+  - [Intro](#intro)
+  - [Differences from GLSL](#differences-from-glsl)
+    - [Vertex Shader](#vertex-shader)
+    - [Namespaces](#namespaces)
+    - [Swizzling](#swizzling)
+    - [Setting Uniforms](#setting-uniforms)
+    - [Sampling Textures](#sampling-textures)
+    - [Auto keyword](#auto-keyword)
+    - [Resolution](#resolution)
+    - [FragCoords](#fragcoords)
+  - [Contents](#contents)
+    - [Color](#color)
+    - [Texture Coordinates](#texture-coordinates)
+    - [Uniforms](#uniforms)
+  - [Converting a ShaderToy](#converting-a-shadertoy)
+
+
 ## Intro
 
 This is a collection of heavily commented examples of how to write shaders in [SparkSL](https://sparkar.facebook.com/ar-studio/learn/sparksl/sparksl-overview). SparkSL is a shader language used in SparkAR that is cross compatible across iOS and android devices. It shares many similarities to GLSL but has a few quirks and nice additions of its own.
@@ -254,7 +273,7 @@ This project shows how to send values to a shader from the patch / material edit
 
 ## Converting a ShaderToy
 
-Many of the functions in shadertoy have sparkSL equivalents. Here's a table with some of them listed out. Some things like delta time, date, and mouse position are not listed here. However they could be computed and passed as uniforms to your shader.
+Many of the functions in [shadertoy](https://www.shadertoy.com/) have SparkSL equivalents. Here's a table with some of them listed out. Some things like delta time, date, and mouse position are not listed here. However they could be computed and passed as uniforms to your shader.
 
 | Shadertoy                | SparkSL                    |
 | ------------------------ | -------------------------- |
