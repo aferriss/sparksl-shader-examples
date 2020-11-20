@@ -1,0 +1,18 @@
+using namespace std;
+
+vec4 main(Texture2d tex0, Texture2d tex1, float touchX) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // get the camera and the blurred image as textures
+  vec4 cam = tex0.sample(uv);
+  vec4 blur = tex1.sample(uv);
+
+  // calculate an average color for the blurred image
+  // this is essentially the same as saying (blur.r + blur.g + blur.b) / 3.0;
+  float avg = dot(blur.rgb, vec3(0.33333));
+
+  // mix the blur and camera together according to how bright the blurred image is
+  // use the mouse to control the bloom
+  vec4 bloom = mix(cam, blur, clamp(avg*(1.0 + touchX / tex0.size.x), 0.0, 1.0));;
+  return bloom;
+}

@@ -1,0 +1,26 @@
+using namespace std;
+
+
+// this is a common glsl function to convert rgb colors to luminance
+// it performs a dot product of the input color against some known values that account for our eyes perception of brighness
+// i pulled this one from here https://github.com/hughsk/glsl-luma/blob/master/index.glsl
+float luma(vec3 color) {
+  return dot(color, vec3(0.299, 0.587, 0.114));
+}
+
+vec4 main(Texture2d tex, float touchX) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  vec4 color = tex.sample(uv);
+
+  // convert the texture to grayscale by using the luma function  
+  float bw = luma(color.rgb);
+
+  // here we will use the step function to convert the image into black or white
+  // any color less than mouseX will become black, any color greater than mouseX will become white
+  float thresh = step(bw, touchX / tex.size.x);
+
+
+  // output the threshold value in all three rgb color channels
+  return vec4(thresh).xxx1;
+}
