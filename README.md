@@ -7,6 +7,7 @@
     - [Vertex Shader](#vertex-shader)
     - [Namespaces](#namespaces)
     - [Swizzling](#swizzling)
+    - [Optionals](#optionals)
     - [Setting Uniforms](#setting-uniforms)
     - [Sampling Textures](#sampling-textures)
     - [Auto keyword](#auto-keyword)
@@ -14,9 +15,11 @@
     - [FragCoords](#fragcoords)
   - [Contents](#contents)
     - [Color](#color)
+    - [Optional-valueOr](#optional-valueor)
     - [Texture Coordinates](#texture-coordinates)
     - [Uniforms](#uniforms)
     - [Image Effects](#image-effects)
+    - [3d](#3d)
   - [Converting a ShaderToy](#converting-a-shadertoy)
 
 
@@ -117,6 +120,27 @@ vec4 colorB = colorA.brag; // vec4(0.2, 0.1, 1.0, 0.5);
 // Swizzles work just like patch editor swizzle strings
 vec4 colorA = vec4(0.1, 0.5, 0.2, 1.0);
 vec4 colorB = coloA.br01; // vec4(0.2, 0.1, 0.0, 1.0);
+```
+
+### Optionals
+
+```glsl
+
+// This feature doesn't exist in GLSL
+
+// In SparkSL you can use optionals so that if you don't have a texture ( or other value) attached there will be a fallback.  
+vec4 main(optional <std::Texture2d> tex0){
+
+    vec2 uv = fragment(std::getVertexTexCoord());
+
+    // Here we sample our optional texture
+    // The valueOr function is chained on to the end so that we return red if no texture is attached
+    vec4 color = tex0.sample(uv).valueOr(vec4(1.0, 0.0, 0.0, 1.0));
+
+    return color;
+}
+
+
 ```
 
 ### Setting Uniforms
@@ -251,6 +275,10 @@ This project shows how to create a shader code asset and render a few different 
 - Cyan
 - Functions
 
+### Optional-valueOr
+
+This project shows how to use the `optional` keyword and `valueOr()` fallback function.
+
 ### Texture Coordinates
 
 This project shows how to access texture coordinates and use them in a variety of different ways
@@ -284,6 +312,16 @@ This project shows how to send values to a shader from the patch / material edit
 - Invert
 - Mosaic
 - RGB Separation
+- Convolution
+- Delay
+- Feeback
+- Slitscan
+
+### 3d
+
+- Matcap
+- Glass
+- Vertex Displacement
 
 ## Converting a ShaderToy
 

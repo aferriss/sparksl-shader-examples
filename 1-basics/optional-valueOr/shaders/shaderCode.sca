@@ -1,0 +1,14 @@
+
+
+
+// Here we use an optional Texture2d. 
+// If the texture isn't attached we will fallback to another color
+// Note the angle bracket syntax around the type
+vec4 main(optional <std::Texture2d> tex0) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // When using an optional value, you must use the valueOr() function or else spark will throw an error
+  vec4 color = tex0.sample(uv).valueOr(vec4(uv, 0.0, 1.0));
+
+  return color;
+}
