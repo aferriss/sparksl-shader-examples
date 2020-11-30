@@ -1,0 +1,19 @@
+using namespace std;
+
+
+// For slitscan, we need the current texture and the previous texture
+vec4 main(Texture2d curTex,  Texture2d lastTex, float time) {
+
+  vec2 uv = fragment(getVertexTexCoord());
+
+  // We create a gradient that we will use to pick the new texture with
+  float gradient = smoothstep(time, time + 0.01, uv.y);
+
+  // Here's an indicator bar so that you can see w
+  float gradientBar = smoothstep(0.01, 0.0, abs(uv.y - time));
+
+  vec4 cur = curTex.sample(uv);
+  vec4 last = lastTex.sample(uv);
+  // output the threshold value in all three rgb color channels
+  return mix(last, cur, gradient);
+}

@@ -1,0 +1,32 @@
+precision highp float;
+using namespace std;
+
+void main(out vec4 Position, out vec4 Color) {
+
+  float time = getTime();
+
+  // Get the normal
+  vec3 N = getVertexNormal();
+
+
+  vec4 position = getVertexPosition();
+
+  // How much to distort
+  float distortionAmount = 0.1;
+
+  // Some time ofsets
+  vec3 time3 = vec3(time, time*2.0, time*3.0);
+
+  // Some frequency offsets 
+  vec3 freq = vec3(10.0, 15.0, 5.0);
+
+  // Move the vertex Position along it's normal on a sine
+  // There's no right way to do this, I just made up this equation
+  position.xyz += N * sin(position.yzx * freq + time3) * distortionAmount;
+
+  // Output the position we just calculated
+  Position = getModelViewProjectionMatrix() * position;
+
+  // Color it with the Normal
+  Color = vec4(N * 0.5 + 0.5, 1.0);
+}

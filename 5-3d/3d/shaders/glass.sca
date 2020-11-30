@@ -1,0 +1,38 @@
+precision highp float;
+
+using namespace std;
+
+// How to make a fake glass effect
+
+void main(Texture2d tex, out vec4 Position, out vec4 Color) {
+
+  // Get the worldspace noraml
+  vec3 N = normalize(getNormalMatrix() * getVertexNormal());
+
+  Position = getModelViewProjectionMatrix() * getVertexPosition();
+
+  // Get the fragment coordinate in screenspace
+  vec2 uv = fragment(Position.xy / Position.w);
+  uv = uv * 0.5 + 0.5;
+  uv.y = 1.0 - uv.y;
+
+  // The bigger this number, the more glass distortion there will be
+  float eta = 1.04;
+
+  // Use the refract function and slightly offset eta for chroma distortion
+  vec2 distortionR = fragment(refract(vec3(0.0, 0.0, -1.0), N, eta).xy);
+  vec2 distortionG = fragment(refract(vec3(0.0, 0.0, -1.0), N, eta + 0.005).xy);
+  vec2 distortionB = fragment(refract(vec3(0.0, 0.0, -1.0), N, eta + 0.01).xy);
+
+  // Sample the texture, adding the distortion
+  vec4 colR = tex.sample(uv + distortionR);
+  vec4 colG = tex.sample(uv + distortionG);
+  vec4 colB = tex.sample(uv + distortionB);
+
+  // Pack the output into a single color
+  vec4 col = vec4(colR.r, colG.g, colB.b, 1.0);
+
+  // Output the color
+  Color = col;
+
+}

@@ -1,0 +1,31 @@
+precision highp float;
+
+using namespace std;
+
+// This function returns texture coordinates. We give it an eye position and the normal and it 
+// shows us how a sphere would reflect the texture. 
+// This particular implementation was borrowed from https://www.clicktorelease.com/blog/creating-spherical-environment-mapping-shader/
+vec2 matcap(vec3 eye, vec3 normal) {
+  vec3 reflected = reflect(eye, normal);
+  float m = 2.8284271247461903 * sqrt( reflected.z+1.0 );
+  return reflected.xy / m + 0.5;
+}
+
+void main(Texture2d matcapTex, out vec4 Color, out vec4 Position) {
+
+  // We need to calculate the world space eye position, and the world space normal
+  // The normalmatrix is the transpose-inverse of the modelview matrix. 
+  vec3 eye = normalize((getModelViewMatrix() * getVertexPosition()).xyz);
+  vec3 normal = normalize(getNormalMatrix() * getVertexNormal());
+
+  // Move our vertex positions into screen space
+  Position = getModelViewProjectionMatrix() * getVertexPosition();
+
+
+  // Calculate our uv
+  vec2 uv = matcap(fragment(eye), fragment(normal)) ;
+
+  // Sample the texture
+  Color = matcapTex.sample(uv);
+}
+

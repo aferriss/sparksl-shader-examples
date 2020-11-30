@@ -1,0 +1,17 @@
+precision highp float;
+
+using namespace std;
+
+
+vec4 main(Texture2d tex0, Texture2d tex1, Texture2d tex2) {
+  // Get our uv's
+  vec2 uv = fragment(getVertexTexCoord());
+
+  // Sample each texture
+  vec4 red = tex0.sample(uv);
+  vec4 green = tex1.sample(uv);
+  vec4 blue = tex2.sample(uv);
+
+  // Put one channel from each texture in the output
+  return vec4(red.r, green.g, blue.b, 1.0);
+}

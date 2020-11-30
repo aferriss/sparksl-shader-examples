@@ -1,0 +1,53 @@
+precision highp float;
+
+#import <color_spaces>
+
+#define TWO_PI 6.28318530718
+
+using namespace std;
+
+vec4 main(Texture2d curTex, Texture2d lastTex, float touchDown) {
+
+  vec2 uv = fragment(getVertexTexCoord());
+
+  // make a copy of the uvs
+  vec2 feedbackUv = uv;
+
+  // move the uv space between -1 and 1
+  feedbackUv = uv * 2.0 - 1.0;
+
+  // scale the uvs up just a tad for a feedback zoom
+  feedbackUv *= 0.98;
+
+  // return the uvs to 0 - 1 range
+  feedbackUv = feedbackUv * 0.5 + 0.5;
+  
+  // get the webcam
+  vec4 cam = curTex.sample(uv);
+
+  // make a copy of the camera
+  vec4 tex = cam;
+  
+  // if the touch isn't true we'll run the feedback loop
+  if(touchDown == 0.0){
+
+    // calculate an angle from the hue
+    // we will use these to offset the texture coordinates just a little bit
+    vec3 hsb = rgbToHsv(cam.rgb);
+    float angleX =  cos(hsb.r * TWO_PI);
+    float angleY = sin(hsb.r * TWO_PI);
+
+    // add those angles to the tex coords and sample the feed back texture
+    tex = lastTex.sample(feedbackUv + vec2(angleX, angleY)*0.001);
+
+    // add some camera from the screen
+    tex.rgb += cam.rgb*0.8;
+
+    // if tex.r > 1.0, invert the texture and swizzle the color channels around
+    tex.rgb = mix(tex.rgb, 1.0 -tex.gbr, step(1.0, tex.r) );
+
+  } 
+  
+  // render the output
+  return tex;
+}
