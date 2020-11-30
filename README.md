@@ -129,6 +129,7 @@ vec4 colorB = coloA.br01; // vec4(0.2, 0.1, 0.0, 1.0);
 // This feature doesn't exist in GLSL
 
 // In SparkSL you can use optionals so that if you don't have a texture ( or other value) attached there will be a fallback.  
+// https://sparkar.facebook.com/ar-studio/learn/sparksl/sparksl-overview#optional-types
 vec4 main(optional <std::Texture2d> tex0){
 
     vec2 uv = fragment(std::getVertexTexCoord());
