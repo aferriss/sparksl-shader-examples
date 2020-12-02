@@ -8,6 +8,7 @@
     - [Namespaces](#namespaces)
     - [Swizzling](#swizzling)
     - [Optionals](#optionals)
+    - [Array Notation](#array-notation)
     - [Setting Uniforms](#setting-uniforms)
     - [Sampling Textures](#sampling-textures)
     - [Auto keyword](#auto-keyword)
@@ -140,6 +141,28 @@ vec4 main(optional <std::Texture2d> tex0){
 
     return color;
 }
+
+
+```
+
+### Array Notation
+
+```
+// GLSL
+float[] x = float[] (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6);
+
+// SparkSL
+
+// You can do this in two ways
+
+float arrayA[5] = {1.0, -2.0, 0.2, 5.0, 3.3};
+
+// or...
+
+float arrayB[3];
+arrayB[0] = 0.1;
+arrayB[1] = 1.9;
+arrayB[2] = -1.0;
 
 
 ```
