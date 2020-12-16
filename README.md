@@ -14,6 +14,7 @@
     - [Auto keyword](#auto-keyword)
     - [Resolution](#resolution)
     - [FragCoords](#fragcoords)
+    - [fragment() Function](#fragment-function)
   - [Contents](#contents)
     - [Color](#color)
     - [Optional-valueOr](#optional-valueor)
@@ -280,7 +281,30 @@ void main(out Position, out Color){
     vec2 fragCoord = fragment(Position.xy / Position.w);
     fragCoord = fragCoord * 0.5 + 0.5;
 
-    Color = vec4(fragCoord / getRenderTargetSize(), 0.0, 1.0);
+    // fragCoord is a value from 0 -1, if you want it in pixels you can do
+    // fragCoord = floor(fragCoord * getRenderTargetSize());
+    // if you're using pixel coordinates, you may need to add 0.5 to get the center of the pixel
+    // fragCoord += 0.5;
+
+    Color = vec4(fragCoord, 0.0, 1.0);
+}
+```
+
+### fragment() Function
+
+```
+using namespace std;
+
+vec4 main(){
+    // SparkSL will try to move all calculation that it can into the vertex shader for increased performance.
+    // Sometimes this isn't desirable so you can force a calculation in the fragment shader with the fragment() function.
+    // All subsequent calculation after calling a fragment() function on a variable will have in the fragment shader.
+
+    // Output one of the following and note the slight difference in appearance
+    vec2 vertexUvs = getVertexTexCoord();
+    vec2 fragmentUvs = fragment(getVertexTexCoord());
+
+    return vec4(vertexUvs, 0.0, 1.0);
 }
 ```
 
@@ -346,6 +370,7 @@ This project shows how to send values to a shader from the patch / material edit
 - Matcap
 - Glass
 - Vertex Displacement
+- Fresnel (Facing ratio)
 
 ## Converting a ShaderToy
 
