@@ -1,0 +1,27 @@
+precision highp float;
+using namespace std;
+
+vec4 main(float bias, float scale, float power) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // A fresnel shader is a shader that calculates how much of the geometry is facing the camera. 
+  // The brighter the value, the more it is facing away.
+
+  // First we calculat the vertex position in world space
+  vec3 worldPosition = (getModelMatrix() * getVertexPosition()).xyz;
+
+  // Then we do the same for the vertex normal
+  vec3 worldNormal = (getModelMatrix() * vec4(getVertexNormal(), 0.0)).xyz;
+
+  // Here we calculate a direction vector from the vertex position to the camera position
+  vec3 I = normalize(worldPosition - getCameraPosition().xyz);
+
+  // This is where we calculate how much of the material is facing the camera
+  float facingRatio = dot(worldNormal, I);
+
+  // A simple equation for styling the fresnel
+  float fresnel = bias + scale * pow(1.0 + facingRatio, power);
+
+
+  return vec4(vec3(fresnel), 1.0);
+}

@@ -1,0 +1,22 @@
+using namespace std;
+
+// An old school hack to make an outline.
+// The basis of this technique is that we have a duplicate mesh of the geometry and move it' vertices outward along the normals
+// The duplicate mesh is then set to be front face culling !!! important !!!
+// The duplicate mesh also needs its depthtest and depth buffer settings disabled 
+// Put the duplicate mesh on it's own layer underneath the original geometry
+void main(out vec4 Position, out vec4 Color) {
+
+  // Get the normal and position data
+  vec3 normal = getVertexNormal();
+  vec4 position = getVertexPosition();
+
+  // Move the position along the normal
+  position.xyz += 0.1 * normal;
+
+  // Output the position
+  Position = getModelViewProjectionMatrix() * position;
+
+  // Output the outline color
+  Color = vec4(1.0, 0.0, 0.0, 1.0);
+}
