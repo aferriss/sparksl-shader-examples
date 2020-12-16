@@ -371,6 +371,7 @@ This project shows how to send values to a shader from the patch / material edit
 - Glass
 - Vertex Displacement
 - Fresnel (Facing ratio)
+- Outline
 
 ## Converting a ShaderToy
 
