@@ -1,0 +1,72 @@
+precision highp float;
+using namespace std;
+
+// This is an example of how to access the lighting information in spark and setup basic phong lighting
+
+// First we need to import the lighting module
+#import <lights>
+
+// These are our material parameters
+struct LightParams {
+  vec3 diffuse;
+  vec3 specular;
+  float shininess;
+};
+
+// Phong lighting equations are pulled from the example on the spark docs and simplified a bit
+vec3 phongLighting(LightData light, vec3 normal, vec3 view, LightParams params){
+  vec3 reflected = -reflect(light.toLightDirection, normal);
+
+  float LdotN = dot(light.toLightDirection, normal);
+  float RdotV = max(dot(reflected, view), 0.0);
+
+  float diffuseFactor = max(LdotN, 0.0);
+  vec3 diffuse = params.diffuse  * diffuseFactor * light.intensity ;
+
+  float specFactor = pow(RdotV, params.shininess) * step(0.0, LdotN);
+  vec3 specular = params.specular * light.intensity * specFactor;
+
+  return diffuse + specular;
+  // return vec3(diffuseFactor);
+}
+
+vec4 main(Texture2d diffuseColor, Texture2d specularColor, Texture2d normalColor, vec3 emissionColor) {
+
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+
+  // Some parameters for our light
+  LightParams params;
+
+  // Diffuse color is the diffuse texture map
+  params.diffuse = diffuseColor.sample(uv).rgb;
+
+  // Specular Color is the specular texture map (if you have one)
+  // We dont in this case so it doesn't make too much sense but this where you'd put it if you had one
+  params.specular = specularColor.sample(uv).rgb;
+
+  // Shininess is up to us (higher is more shiny)
+  params.shininess = 1.0;
+
+  // Calculate the normal from the normal texture
+  vec3 N = normalize(getTangentFrame() * (normalColor.sample(uv).rgb * 2.0 - 1.0));
+
+  // Get the cameraspace normal, position, and viewpoint
+  vec3 normal = normalize(fragment(getNormalMatrix() * N));
+  vec4 pos = fragment(getModelViewMatrix() * getVertexPosition());
+  vec3 view = normalize(-pos.xyz);
+
+  // DirectionalLight is the first light in the scene hierarchy so it becomes light0
+  vec3 directionalLighting = phongLighting(getLightData0(pos.xyz), normal, view, params);
+
+  // Point light is the second light in the hierarchy so it becomes light1
+  vec3 pointLighting = phongLighting(getLightData1(pos.xyz), normal, view, params);
+
+  // This function is built in to the spark lighting module. it returns ambientLightColor * ambientLightIntensity
+  vec3 ambientLighting = getAmbientLight();
+
+  // Add it all up and output the color
+  vec3 color = directionalLighting + pointLighting + ambientLighting;
+
+  return vec4(color, 1.0);
+}

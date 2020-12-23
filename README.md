@@ -24,6 +24,7 @@
     - [3d](#3d)
     - [Builtins](#builtins)
       - [Sdf](#sdf)
+      - [Lights](#lights)
   - [Converting a ShaderToy](#converting-a-shadertoy)
 
 ## Intro
@@ -386,6 +387,10 @@ This section shows how to use the built in libraries
 - Rotation
 - Complex Shapes
 - Annular Shapes
+
+#### Lights
+
+- Phong lighting
 
 ## Converting a ShaderToy
 
