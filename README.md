@@ -1,6 +1,5 @@
 # SparkSL Shader Examples
 
-
 - [SparkSL Shader Examples](#sparksl-shader-examples)
   - [Intro](#intro)
   - [Differences from GLSL](#differences-from-glsl)
@@ -22,8 +21,8 @@
     - [Uniforms](#uniforms)
     - [Image Effects](#image-effects)
     - [3d](#3d)
+    - [Sdf](#sdf)
   - [Converting a ShaderToy](#converting-a-shadertoy)
-
 
 ## Intro
 
@@ -372,6 +371,15 @@ This project shows how to send values to a shader from the patch / material edit
 - Vertex Displacement
 - Fresnel (Facing ratio)
 - Outline
+
+### Sdf
+
+This project shows how to use the built in sdf library
+
+- Basic Shapes
+- Rotation
+- Complex Shapes
+- Annular Shapes
 
 ## Converting a ShaderToy
 

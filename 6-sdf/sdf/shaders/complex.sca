@@ -1,0 +1,50 @@
+precision highp float;
+using namespace std;
+
+// First we need to import the sdf module
+#import <sdf>
+
+
+// In this example I show how to string many sdf commands together to create a complex shape
+vec4 main() {
+
+  // For all sdf's we need uv's
+  vec2 uv = fragment(getVertexTexCoord());
+
+  // We need to aspect correct a few things in order to not have a skewed rotation
+  float aspect = getRenderTargetSize().x / getRenderTargetSize().y;
+
+  // aspect corrrect the uvs
+  uv.x *= aspect;
+
+  // aspect correct the positon
+  vec2 position = vec2(0.5*aspect, 0.5);
+
+  // FInd the size of a single texel
+  vec2 texel = 1.0 / getRenderTargetSize();
+
+  // Use the x value for both width and height
+  vec2 size = texel.xx * 50.0;
+
+  // Create our sdf functions, a star and rectangle
+  auto rectSdf = sdfRectangle(position, size);
+  auto starSdf = sdfStarSharp(position, size.x, size.x + 0.1, 8.0);
+
+  // We will use the smooth difference function to make a flower shape
+  auto difference = sdfSmoothDifference(rectSdf, starSdf, 0.61);
+  
+  // Then we use the repeate function to create a grid of the shapes
+  auto repeat = sdfRepeat(difference, position, size * 1.5);
+
+  // Use the translate function to make our sdf scroll on the x axis
+  auto translate = sdfTranslation(repeat, vec2(getTime() * 0.1, 0.0));
+
+  // finall create our sdf
+  float sdf = translate(uv);
+
+  // Step over the shape to create a b/w mask
+  sdf = smoothstep(sdf, sdf + 0.001, 0.15);
+
+  // Output our shape
+  return vec4(vec3(sdf), 1.0);
+}

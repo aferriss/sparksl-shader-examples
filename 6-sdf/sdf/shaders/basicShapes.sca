@@ -1,0 +1,69 @@
+precision highp float;
+using namespace std;
+
+// First we need to import the sdf module
+#import <sdf>
+
+vec4 main() {
+
+  // For all sdf's we need uv's
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // Sdf functions in SparkSL all return a function<float(vec2)> type, but it's easier to use auto so you don't have to remember
+  // What this means is that you define a function that will take a vec2, typically your uv's
+
+  // Lets make a box
+  // The first parameter is the position
+  // The second parameter is the halfsize
+
+  // lets put the rect at the center of the screen on the x and a quarter of the screen on the y
+  vec2 position = vec2(0.5, 0.25);
+
+  // If we want to express the size in terms of pixels we need to know the size of a single "texel"
+  vec2 texel = 1.0 / getRenderTargetSize();
+
+  // Make the rect 100 texels in size (remember the size is the half size)
+  vec2 size = texel * 50.0;
+
+  // Create the sdf function
+  auto rectSdf = sdfRectangle(position, size);
+
+  // Create the actual sdf
+  float rect = rectSdf(uv);
+
+  // In the sdf, anything less than 0 is inside the shape, anything greater than 0 is outside
+  // If we take a step over 0, we can generate a black and white mask
+  rect = step(rect, 0.0);
+
+
+  // Now lets make a polygon. The polygon takes a third parameter for the number of sides
+  // The second parameter in polygon also needs to be a float for a radius, instead of a vec2
+  auto polygonSdf = sdfPolygon(vec2(0.5), texel.x*50.0, 5.0);
+
+  // Create the poly
+  float poly = polygonSdf(uv);
+
+  // PROTIP!!! You can create the sdf on a single line with an extra set of brackets in your syntax
+  // For example, the two lines above could be combined into the line below. Note the (uv) at the end
+  // float poly = sdfPolygon(vec2(0.5), texel.x*50.0, 5.0)(uv);
+
+  // Step over it again
+  poly = step(poly, 0.0);
+
+  // Lastly we'll make a star
+  // The star parameters are (center, innerRadius, outerRadius, number of points)
+  auto starSdf = sdfStarSharp(vec2(0.5, 0.75), texel.x * 30.0, texel.x * 50.0, 5.0);
+
+  // Make the star
+  float star = starSdf(uv);
+
+  // Step over it
+  star = step(star, 0.0);
+
+  // Lets add all the shapes together
+  float shapes = rect + poly + star;
+
+
+  // Output our rectangle
+  return vec4(vec3(shapes), 1.0);
+}
