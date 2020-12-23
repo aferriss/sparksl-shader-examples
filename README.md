@@ -21,7 +21,8 @@
     - [Uniforms](#uniforms)
     - [Image Effects](#image-effects)
     - [3d](#3d)
-    - [Sdf](#sdf)
+    - [Builtins](#builtins)
+      - [Sdf](#sdf)
   - [Converting a ShaderToy](#converting-a-shadertoy)
 
 ## Intro
@@ -372,9 +373,11 @@ This project shows how to send values to a shader from the patch / material edit
 - Fresnel (Facing ratio)
 - Outline
 
-### Sdf
+### Builtins
 
-This project shows how to use the built in sdf library
+This section shows how to use the built in libraries
+
+#### Sdf
 
 - Basic Shapes
 - Rotation
