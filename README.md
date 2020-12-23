@@ -15,8 +15,9 @@
     - [FragCoords](#fragcoords)
     - [fragment() Function](#fragment-function)
   - [Contents](#contents)
-    - [Color](#color)
-    - [Optional-valueOr](#optional-valueor)
+    - [Basics](#basics)
+      - [Color](#color)
+      - [Optional-valueOr](#optional-valueor)
     - [Texture Coordinates](#texture-coordinates)
     - [Uniforms](#uniforms)
     - [Image Effects](#image-effects)
@@ -148,7 +149,7 @@ vec4 main(optional <std::Texture2d> tex0){
 
 ### Array Notation
 
-```
+```glsl
 // GLSL
 float[] x = float[] (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6);
 
@@ -292,7 +293,7 @@ void main(out Position, out Color){
 
 ### fragment() Function
 
-```
+```glsl
 using namespace std;
 
 vec4 main(){
@@ -314,7 +315,9 @@ vec4 main(){
 
 Each project contains a spark file with a few different example shaders contained within. Just open up the patch editor and connect the output of the shader assets to the Device Output patch to try different effects.
 
-### Color
+### Basics
+
+#### Color
 
 This project shows how to create a shader code asset and render a few different colors.
 
@@ -323,7 +326,7 @@ This project shows how to create a shader code asset and render a few different 
 - Cyan
 - Functions
 
-### Optional-valueOr
+#### Optional-valueOr
 
 This project shows how to use the `optional` keyword and `valueOr()` fallback function.
 
