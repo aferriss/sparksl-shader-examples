@@ -161,6 +161,8 @@ float[] x = float[] (0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6);
 
 float arrayA[5] = {1.0, -2.0, 0.2, 5.0, 3.3};
 
+vec3 anotherArray[3] = {vec3(1.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), vec3(0.0, 0.0, 1.0)};
+
 // or...
 
 float arrayB[3];
@@ -168,6 +170,10 @@ arrayB[0] = 0.1;
 arrayB[1] = 1.9;
 arrayB[2] = -1.0;
 
+vec3 arrayC[3];
+arrayC[0] = vec3(1.0, 0.0, 0.0);
+arrayC[1] = vec3(0.0, 1.0, 0.0);
+arrayC[2] = vec3(0.0, 0.0, 1.0);
 
 ```
 
