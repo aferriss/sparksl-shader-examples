@@ -14,6 +14,7 @@
     - [Resolution](#resolution)
     - [FragCoords](#fragcoords)
     - [fragment() Function](#fragment-function)
+    - [Matrix Construction](#matrix-construction)
   - [Contents](#contents)
     - [Basics](#basics)
       - [Color](#color)
@@ -308,6 +309,54 @@ vec4 main(){
 
     return vec4(vertexUvs, 0.0, 1.0);
 }
+```
+
+### Matrix Construction
+
+```glsl
+// Matrices are constructed in SparkSL the same way that they are in glsl 
+// The only matrix types that exist are mat4 (4x4), mat3 (3x3), and mat2 (2x2).
+// Refer to [here for more info](https://www.khronos.org/opengl/wiki/Data_Type_(GLSL)#Matrix_constructors)
+
+// They are filled in column major order
+
+// You can construct identity matrices like so
+mat4 identity = mat4(1.0); 
+
+// As a reminder an identity matrix is 
+1, 0, 0, 0,
+0, 1, 0, 0,
+0, 0, 1, 0,
+0, 0, 0, 1
+
+// Some more examples of matrix initialization
+
+mat4 m4 = mat4(vec4(1.0), // first column
+               vec4(1.0), // second column
+               vec4(1.0), // third column 
+               vec4(1.0)); // fourth column
+// or
+
+mat4 m4 = mat4(1.0, 1.0, 1.0, 1.0, // first column
+              1.0, 1.0, 1.0, 1.0, // second column
+              1.0, 1.0, 1.0, 1.0, // third column
+              1.0, 1.0, 1.0, 1.0); // fourth column
+
+mat3 m3 = mat3(vec3(1.0), vec3(1.0), vec3(1.0));
+
+// or
+
+mat3 m3 = mat3(1.0, 1.0, 1.0, 
+               1.0, 1.0, 1.0, 
+               1.0, 1.0, 1.0);
+
+mat2 m2 = mat2(vec2(1.0), vec2(1.0));
+
+// or 
+
+mat2 m2 = mat2(1.0, 1.0, 
+               1.0, 1.0);
+
 ```
 
 ## Contents
