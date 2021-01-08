@@ -27,6 +27,7 @@
     - [Builtins](#builtins)
       - [Sdf](#sdf)
       - [Lights](#lights)
+      - [sampleLod](#samplelod)
   - [Converting a ShaderToy](#converting-a-shadertoy)
 
 ## Intro
@@ -462,7 +463,7 @@ This project shows how to send values to a shader from the patch / material edit
 
 ### Builtins
 
-This section shows how to use the built in libraries
+This section shows how to use the built in libraries and functions
 
 #### Sdf
 
@@ -474,6 +475,10 @@ This section shows how to use the built in libraries
 #### Lights
 
 - Phong lighting
+
+#### sampleLod
+
+- Sample LOD function
 
 ## Converting a ShaderToy
 
