@@ -1,0 +1,9 @@
+using namespace std;
+
+vec4 main(Texture2d tex, float lod) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // In order to use sampleLod your texture must be a power of 2 size
+  // AND you must turn on the Medium (MIP) texture filtering for the texture you're using
+  return tex.sampleLod(uv, lod);
+}
