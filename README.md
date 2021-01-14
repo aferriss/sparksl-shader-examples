@@ -316,7 +316,9 @@ using namespace std;
 void main(out Position, out Color){
     Position = getModelViewProjectionMatrix() * getVertexPosition();
 
-    vec2 fragCoord = fragment(Position.xy / Position.w);
+    // Do the perspective divide. 
+    // Important! Note that the Position.w needs to be outside of the fragment call so that this operation happens in the fragment shader!!
+    vec2 fragCoord = fragment(Position.xy ) / Position.w;
     fragCoord = fragCoord * 0.5 + 0.5;
 
     // fragCoord is a value from 0 -1, if you want it in pixels you can do
