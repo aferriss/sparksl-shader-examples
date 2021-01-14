@@ -1,0 +1,33 @@
+using namespace std;
+
+// In this example I'll show you how to calculate screenspace uv's
+// Screenspace uv's are uv's that go from 0, 0 in the bottom left corner, to 1, 1 in the upper right corner of the screen
+// They're useful for a wide variety of things. Typically in GLSL you can use gl_FragCoord.xy / resolution to calculate this.
+// However, SparkSL doesn't have a gl_FragCoord equivalent, so we have to calculate this ourselves
+
+// We have two outputs, one for vertex position, and one for fragment color
+void main(out vec4 Position, out vec4 Color) {
+
+  // Output the vertex position like normal
+  Position = getModelViewProjectionMatrix() * getVertexPosition();
+
+  // Position now represents normalized device coordinates (NDC).
+  // The vertex shader will automatically do what's called the perspective divide where it will divide the xyz by w
+  // We need to do that part ourself to calculate this value
+
+  // Do the divide by w
+  vec2 uv = fragment(Position.xy) / Position.w;
+
+  // Uv is now in the -1 to 1 range so we need to normalize it
+  uv = uv * 0.5 + 0.5;
+
+  // Now we have our screen space uv's. If we wanted to calculate the equivalent of gl_FragCoord we could do
+  // The 0.5 will move it to the center of the texel
+  // vec2 fragCoord = uv * getRenderTargetSize() + 0.5
+
+  // Output our uv's as color
+  Color = uv.xy01; 
+
+
+
+}

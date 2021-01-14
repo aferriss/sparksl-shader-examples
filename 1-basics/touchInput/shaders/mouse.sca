@@ -1,0 +1,10 @@
+using namespace std;
+
+
+vec4 main(vec2 touchPos) {
+  // We need to normalize the touch position from a 0-width/height range into a 0-1 range
+  vec2 touchPosNorm = touchPos / getRenderTargetSize();
+
+  // Return the touch position as color
+  return touchPosNorm.xy01;
+}
