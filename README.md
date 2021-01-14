@@ -20,7 +20,10 @@
     - [Basics](#basics)
       - [Color](#color)
       - [Optional-valueOr](#optional-valueor)
+      - [Touch Input](#touch-input)
     - [Texture Coordinates](#texture-coordinates)
+      - [Basic Tex Coords](#basic-tex-coords)
+      - [Screen Space UVs](#screen-space-uvs)
     - [Uniforms](#uniforms)
     - [Image Effects](#image-effects)
     - [3d](#3d)
@@ -417,7 +420,13 @@ This project shows how to create a shader code asset and render a few different 
 
 This project shows how to use the `optional` keyword and `valueOr()` fallback function.
 
+#### Touch Input
+
+This project shows how to add touch input to a shader.
+
 ### Texture Coordinates
+
+#### Basic Tex Coords
 
 This project shows how to access texture coordinates and use them in a variety of different ways
 
@@ -428,6 +437,10 @@ This project shows how to access texture coordinates and use them in a variety o
 - Noise
 - Checkers
 - Vignette
+
+#### Screen Space UVs
+
+This project shows how to compute screen space uv's / fragCoords
 
 ### Uniforms
 
