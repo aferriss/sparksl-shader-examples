@@ -24,6 +24,7 @@
     - [Texture Coordinates](#texture-coordinates)
       - [Basic Tex Coords](#basic-tex-coords)
       - [Screen Space UVs](#screen-space-uvs)
+      - [Multiple UVs](#multiple-uvs)
     - [Uniforms](#uniforms)
     - [Image Effects](#image-effects)
     - [3d](#3d)
@@ -441,6 +442,10 @@ This project shows how to access texture coordinates and use them in a variety o
 #### Screen Space UVs
 
 This project shows how to compute screen space uv's / fragCoords
+
+#### Multiple UVs
+
+This project shows how to use a mesh with multiple uv sets.
 
 ### Uniforms
 
