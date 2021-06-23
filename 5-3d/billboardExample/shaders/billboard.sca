@@ -1,0 +1,42 @@
+precision highp float;
+using namespace std;
+
+// Spherical billboarding example. 
+// This works by removing the rotation from the modelView matrix
+// We also replace the scale back into the matrix so that you can still change those parameters from Spark.
+
+vec3 extractScale(mat4 matrix){
+  float sx = length(vec3(matrix[0][0], matrix[0][1], matrix[0][2]));
+  float sy = length(vec3(matrix[1][0], matrix[1][1], matrix[1][2]));
+  float sz = length(vec3(matrix[2][0], matrix[2][1], matrix[2][2]));
+
+  return vec3(sx, sy, sz);
+}
+
+void main(Texture2d tex, out vec4 Position, out vec4 Color) {
+
+  // Extract the scale from our model matrix
+  vec3 scale = extractScale(getModelViewMatrix());
+
+  // Get the model matrix
+  mat4 mvMatrix = getModelViewMatrix();
+
+  // Zero out the rotation, and add back in the scale
+  mvMatrix[0][0] = scale.x;
+  mvMatrix[0][1] = 0.0;
+  mvMatrix[0][2] = 0.0;
+
+  mvMatrix[1][0] = 0.0;
+  mvMatrix[1][1] = scale.y;
+  mvMatrix[1][2] = 0.0;
+
+  mvMatrix[2][0] = 0.0;
+  mvMatrix[2][1] = 0.0;
+  mvMatrix[2][2] = scale.z;
+
+  // Calculate our original position
+  Position = getProjectionMatrix() * mvMatrix * getVertexPosition();
+
+  vec2 uv = fragment(std::getVertexTexCoord());
+  Color = tex.sample(uv);
+}

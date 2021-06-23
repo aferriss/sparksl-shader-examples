@@ -475,6 +475,7 @@ This project shows how to send values to a shader from the patch / material edit
 - Vertex Displacement
 - Fresnel (Facing ratio)
 - Outline
+- Billboard
 
 ### Builtins
 
