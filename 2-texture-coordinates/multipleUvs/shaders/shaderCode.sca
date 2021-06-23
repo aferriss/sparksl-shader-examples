@@ -1,0 +1,6 @@
+using namespace std;
+
+void main(out vec4 uv0, out vec4 uv1) {
+  uv0 = fragment(getVertexTexCoord()).xy01;
+  uv1 = fragment(getVertexTexCoord1().valueOr(vec2(0.0))).xy01;
+}

@@ -24,6 +24,7 @@
     - [Texture Coordinates](#texture-coordinates)
       - [Basic Tex Coords](#basic-tex-coords)
       - [Screen Space UVs](#screen-space-uvs)
+      - [Multiple UVs](#multiple-uvs)
     - [Uniforms](#uniforms)
     - [Image Effects](#image-effects)
     - [3d](#3d)
@@ -159,8 +160,8 @@ vec4 main(optional <std::Texture2d> tex0){
 ```glsl
 // GLSL
 // In glsl you must use decimal points for all floating point numbers. 
-// vec3 x = vec3(1, 2, 3); // ERROR!
-// vec3 y = vec3(1.0, 2.0, 3.0); // Correct
+vec3 x = vec3(1, 2, 3); // ERROR!
+vec3 y = vec3(1.0, 2.0, 3.0); // Correct
 
 
 // SparkSL
@@ -168,15 +169,15 @@ vec4 main(optional <std::Texture2d> tex0){
 // As a rule, you can leave off the decimal values when using constructors, outside of that, you'll need decimals
 // The trailing 0 is not necessary though
 
-// vec3 a = vec3(1, 2, 3); // Correct
-// vec3 b = vec3(0, 1.2, 3); // Correct
-// vec3 d = vec3(0, 1, 2) * 0.2; // Correct
-// float e = 2. // Correct
+vec3 a = vec3(1, 2, 3); // Correct
+vec3 b = vec3(0, 1.2, 3); // Correct
+vec3 d = vec3(0, 1, 2) * 0.2; // Correct
+float e = 2. // Correct
 
-// vec3 f = vec3(2) * 2; // ERROR!
-// vec3 g = vec3(2 * 1.2); // ERROR!
+vec3 f = vec3(2) * 2; // ERROR!
+vec3 g = vec3(2 * 1.2); // ERROR!
 
-// vec3 h = vec3(2); 
+vec3 h = vec3(2); 
 h *= 2; // ERROR!
 
 ```
@@ -316,7 +317,7 @@ vec2 fragCoord = fragment(floor(std::getRenderTargetSize() * std::getVertexTexCo
 // In a non-fullscreen shader you can do:
 
 using namespace std;
-void main(out Position, out Color){
+void main(out vec4 Position, out vec4 Color){
     Position = getModelViewProjectionMatrix() * getVertexPosition();
 
     // Do the perspective divide. 
@@ -441,6 +442,10 @@ This project shows how to access texture coordinates and use them in a variety o
 #### Screen Space UVs
 
 This project shows how to compute screen space uv's / fragCoords
+
+#### Multiple UVs
+
+This project shows how to use a mesh with multiple uv sets.
 
 ### Uniforms
 
