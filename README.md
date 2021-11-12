@@ -309,27 +309,10 @@ void main(){
 }
 
 // SparkSL
-// In SparkSl there is currently no keyword for fragcoords.
-// In a fullscreen shader you can use:
-
-vec2 fragCoord = fragment(floor(std::getRenderTargetSize() * std::getVertexTexCoord()));
-
-// In a non-fullscreen shader you can do:
 
 using namespace std;
-void main(out vec4 Position, out vec4 Color){
-    Position = getModelViewProjectionMatrix() * getVertexPosition();
-
-    // Do the perspective divide. 
-    // Important! Note that the Position.w needs to be outside of the fragment call so that this operation happens in the fragment shader!!
-    vec2 fragCoord = fragment(Position.xy ) / Position.w;
-    fragCoord = fragCoord * 0.5 + 0.5;
-
-    // fragCoord is a value from 0 -1, if you want it in pixels you can do
-    // fragCoord = floor(fragCoord * getRenderTargetSize());
-    // if you're using pixel coordinates, you may need to add 0.5 to get the center of the pixel
-    // fragCoord += 0.5;
-
+void main(out vec4 Color){
+    vec2 fragCoord = fragment(getFragmentCoord().xy);
     Color = vec4(fragCoord, 0.0, 1.0);
 }
 ```
