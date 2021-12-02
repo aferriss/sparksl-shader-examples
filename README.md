@@ -308,8 +308,16 @@ void main(){
     gl_FragColor = vec4(uv, 0.0, 1.0);
 }
 
-// SparkSL
-// In SparkSl there is currently no keyword for fragcoords.
+// In SparkSL you can use getFragmentCoord()
+
+using namespace std;
+void main(out vec4 Color){
+    // Already normalized 
+    vec2 fragCoord = fragment(getFragmentCoord().xy);
+    Color = vec4(fragCoord, 0.0, 1.0);
+}
+
+// Or you can get fragCoords manually
 // In a fullscreen shader you can use:
 
 vec2 fragCoord = fragment(floor(std::getRenderTargetSize() * std::getVertexTexCoord()));
