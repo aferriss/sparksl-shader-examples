@@ -283,7 +283,7 @@ void main(){
 // SparkSL
 // In SparkSL we use the TextureEnv type to supply a texture to the shader.
 // I'm just using vertex Normals here for illustrative purposes
-void main(TextureEnv myTex){
+void main(std::TextureEnv myTex){
     vec3 dir = fragment(std::getVertexNormal());
     return myTex.sample(dir);
 }
