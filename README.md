@@ -11,6 +11,7 @@
     - [Array Notation](#array-notation)
     - [Setting Uniforms](#setting-uniforms)
     - [Sampling Textures](#sampling-textures)
+    - [Environment Textures](#environment-textures)
     - [Auto keyword](#auto-keyword)
     - [Resolution](#resolution)
     - [FragCoords](#fragcoords)
@@ -263,6 +264,28 @@ vec4 main(std::Texture2d myTex){
     vec2 uv = fragment(std::getVertexTexCoord());
     vec4 color = myTex.sample(uv) ;
     return color;
+}
+```
+
+### Environment Textures
+
+```glsl
+
+// GLSL
+uniform samplerCube myTex;
+varying vec3 dir;
+
+void main(){
+    gl_FragColor = textureCube(myTex, dir);
+    
+}
+
+// SparkSL
+// In SparkSL we use the TextureEnv type to supply a texture to the shader.
+// I'm just using vertex Normals here for illustrative purposes
+void main(TextureEnv myTex){
+    vec3 dir = fragment(std::getVertexNormal());
+    return myTex.sample(dir);
 }
 ```
 

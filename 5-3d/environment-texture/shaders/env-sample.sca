@@ -1,0 +1,7 @@
+precision highp float;
+using namespace std;
+
+vec4 main(TextureEnv tex) {
+  vec3 dir = fragment(getVertexNormal());
+  return tex.sample(dir);
+}
