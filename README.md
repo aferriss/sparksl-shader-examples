@@ -29,6 +29,7 @@
     - [Uniforms](#uniforms)
     - [Image Effects](#image-effects)
     - [3d](#3d)
+    - [Advanced](#advanced)
     - [Builtins](#builtins)
       - [Sdf](#sdf)
       - [Lights](#lights)
@@ -513,6 +514,10 @@ This project shows how to send values to a shader from the patch / material edit
 - Outline
 - Billboard
 
+### Advanced
+
+- Optical Flow
+
 ### Builtins
 
 This section shows how to use the built in libraries and functions
@@ -541,5 +546,5 @@ Many of the functions in [shadertoy](https://www.shadertoy.com/) have SparkSL eq
 | iTime                    | std::getTime()             |
 | iResolution.xy           | std::getRenderTargetSize() |
 | iChannelResolution[0].xy | texture.size               |
-| fragCoord                | [see above](#FragCoords)   |
+| fragCoord                | [see above](#fragcoords)   |
 | texture()                | myTex.sample(uv)           |
