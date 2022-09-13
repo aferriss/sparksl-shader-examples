@@ -1,0 +1,49 @@
+precision highp float;
+using namespace std;
+
+vec4 main(Texture2d curCamTex, Texture2d lastCamTex, Texture2d lastFlowTex, float edgeSize, float scale, float decay) {
+
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  vec2 res = getRenderTargetSize();
+
+  // Calculate the amount of distance between two textures we want to measure
+  vec2 offset = vec2(edgeSize);
+  offset *= 1.0 / res;
+
+  // Get the difference btwn current camera and last camera frame
+  vec4 diff = curCamTex.sample(uv) - lastCamTex.sample(uv);
+
+  // Get the diffrences betweeen X & Y shifted camera and last camera frames
+  vec4 diffXCur = curCamTex.sample(uv + vec2(offset.x, 0)) - curCamTex.sample(uv - vec2(offset.x, 0.0));
+  vec4 diffXLast = lastCamTex.sample(uv + vec2(offset.x, 0)) - lastCamTex.sample(uv - vec2(offset.x, 0.0));
+  vec4 diffYCur = curCamTex.sample(uv + vec2(0, offset.y)) - curCamTex.sample(uv - vec2(0, offset.y));
+  vec4 diffYLast = lastCamTex.sample(uv + vec2(0, offset.y)) - lastCamTex.sample(uv - vec2(0, offset.y));
+
+  // Sum the differences
+  vec4 diffX = diffXCur + diffXLast;
+  vec4 diffY = diffYCur + diffYLast;
+
+  // Calculate the magnitude
+  vec4 dd = sqrt(diffX * diffX + diffY * diffY + 1.0);
+
+  // Calculate the flow direction
+  vec4 vx = (diffX * diff) / dd;
+  vec4 vy = (diffY * diff) / dd;
+
+  // Scale the flow
+  vec2 flow = vec2(vx.x, vy.x);
+  flow *= scale;
+
+  // Blend previous flow into the current
+  // This is important otherwise you get flickery results
+  vec4 last = lastFlowTex.sample(uv);
+
+  flow = clamp(flow, -1.0, 1.0);
+  flow *= 0.5;
+  flow += last.rg;
+
+  flow = mix(vec2(0.5), flow, decay);
+
+  return vec4(flow, 0, 1);
+}

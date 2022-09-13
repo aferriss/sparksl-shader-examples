@@ -1,0 +1,50 @@
+precision highp float;
+using namespace std;
+
+vec2 rotate(float deg, vec2 anchorPoint, vec2 uv) {
+    float pi = 3.14159265359;
+    float angle = deg * (pi/180.0);
+    vec2 pix = (uv - anchorPoint) * getRenderTargetSize();
+    vec2 q;
+    q.x =   cos(angle)*pix.x + sin(angle)*pix.y;
+    q.y = - sin(angle)*pix.x + cos(angle)*pix.y;
+    return q / getRenderTargetSize() + anchorPoint;
+}
+
+vec4 main(Texture2d flowTex, Texture2d arrowTex, Texture2d camTex, float steps) {
+
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // Make a quantized uv to pixelate our optical flow
+  vec2 quv = floor(uv * steps)  / steps;
+
+  // Make a tiled uv for our arrow texture
+  vec2 auv = mod(uv * steps, 1.0);
+
+  // sample the flow
+  vec4 flow = flowTex.sample(quv);
+
+  // Unnormalize the flow
+  flow -= 0.5;
+
+  // Create a mask showing the flow intensity
+  float mask = distance(flow.rg, vec2(0.0));
+
+  // Normalize the flow
+  flow.rg = normalize(flow.rg);
+
+  // Find the angle vector from our flow map
+  float angle = atan(flow.y, flow.x);
+  angle -= 1.5708;
+
+  // Rotate each arrow around its center according to the flow
+  vec4 arrow = arrowTex.sample(rotate(degrees(angle), vec2(0.5), auv));
+
+  // Remove arrows where flow is low
+  arrow *= step(0.1, mask);
+
+  vec4 cam = camTex.sample(uv);
+  
+  // Add the camera back in
+ return cam + arrow;
+}

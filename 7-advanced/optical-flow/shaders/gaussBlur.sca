@@ -1,0 +1,31 @@
+precision highp float;
+using namespace std;
+
+#define PI (3.14159265)
+#define TWO_PI (6.283185307)      
+#define TWO_PI_SQRT (2.506628274) 
+
+vec4 main(Texture2d tex, float sigma, float radius, vec2 dir) {
+
+  vec2 uv = fragment(std::getVertexTexCoord());
+  vec3 coeff = vec3(1.0 / (TWO_PI_SQRT * sigma ), exp(-0.5 / (sigma * sigma)), 0);
+  coeff.z = coeff.y * coeff.y;
+
+  vec4 blur = vec4(0);
+  float norm = 0.0;
+
+  blur += tex.sample(uv) * coeff.x;
+  norm += coeff.x;
+  coeff.xy += coeff.yz;
+
+  dir *= 1.0 / getRenderTargetSize();
+
+  for(float i = 1.0 ; i<= radius; i++){
+    blur += tex.sample(uv + dir * i) * coeff.x;
+    blur += tex.sample(uv - dir * i) * coeff.x;
+    norm += coeff.x * 2.0;
+    coeff.xy *= coeff.yz;
+  }
+
+  return blur / norm;
+}
