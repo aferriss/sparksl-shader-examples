@@ -141,7 +141,7 @@ vec4 colorB = coloA.br01; // vec4(0.2, 0.1, 0.0, 1.0);
 
 // This feature doesn't exist in GLSL
 
-// In SparkSL you can use optionals so that if you don't have a texture ( or other value) attached there will be a fallback.  
+// In SparkSL you can use optionals so that if you don't have a texture ( or other value) attached there will be a fallback.
 // https://sparkar.facebook.com/ar-studio/learn/sparksl/sparksl-overview#optional-types
 vec4 main(optional <std::Texture2d> tex0){
 
@@ -157,11 +157,11 @@ vec4 main(optional <std::Texture2d> tex0){
 
 ```
 
-### Decimal Syntax  
+### Decimal Syntax
 
 ```glsl
 // GLSL
-// In glsl you must use decimal points for all floating point numbers. 
+// In glsl you must use decimal points for all floating point numbers.
 vec3 x = vec3(1, 2, 3); // ERROR!
 vec3 y = vec3(1.0, 2.0, 3.0); // Correct
 
@@ -179,7 +179,7 @@ float e = 2. // Correct
 vec3 f = vec3(2) * 2; // ERROR!
 vec3 g = vec3(2 * 1.2); // ERROR!
 
-vec3 h = vec3(2); 
+vec3 h = vec3(2);
 h *= 2; // ERROR!
 
 ```
@@ -278,7 +278,7 @@ varying vec3 dir;
 
 void main(){
     gl_FragColor = textureCube(myTex, dir);
-    
+
 }
 
 // SparkSL
@@ -336,7 +336,7 @@ void main(){
 
 using namespace std;
 void main(out vec4 Color){
-    // Already normalized 
+    // Already normalized
     vec2 fragCoord = fragment(getFragmentCoord().xy);
     Color = vec4(fragCoord, 0.0, 1.0);
 }
@@ -352,7 +352,7 @@ using namespace std;
 void main(out vec4 Position, out vec4 Color){
     Position = getModelViewProjectionMatrix() * getVertexPosition();
 
-    // Do the perspective divide. 
+    // Do the perspective divide.
     // Important! Note that the Position.w needs to be outside of the fragment call so that this operation happens in the fragment shader!!
     vec2 fragCoord = fragment(Position.xy ) / Position.w;
     fragCoord = fragCoord * 0.5 + 0.5;
@@ -387,16 +387,16 @@ vec4 main(){
 ### Matrix Construction
 
 ```glsl
-// Matrices are constructed in SparkSL the same way that they are in glsl 
+// Matrices are constructed in SparkSL the same way that they are in glsl
 // The only matrix types that exist are mat4 (4x4), mat3 (3x3), and mat2 (2x2).
 // Refer to [here for more info](https://www.khronos.org/opengl/wiki/Data_Type_(GLSL)#Matrix_constructors)
 
 // They are filled in column major order
 
 // You can construct identity matrices like so
-mat4 identity = mat4(1.0); 
+mat4 identity = mat4(1.0);
 
-// As a reminder an identity matrix is 
+// As a reminder an identity matrix is
 1, 0, 0, 0,
 0, 1, 0, 0,
 0, 0, 1, 0,
@@ -406,7 +406,7 @@ mat4 identity = mat4(1.0);
 
 mat4 m4 = mat4(vec4(1.0), // first column
                vec4(1.0), // second column
-               vec4(1.0), // third column 
+               vec4(1.0), // third column
                vec4(1.0)); // fourth column
 // or
 
@@ -419,15 +419,15 @@ mat3 m3 = mat3(vec3(1.0), vec3(1.0), vec3(1.0));
 
 // or
 
-mat3 m3 = mat3(1.0, 1.0, 1.0, 
-               1.0, 1.0, 1.0, 
+mat3 m3 = mat3(1.0, 1.0, 1.0,
+               1.0, 1.0, 1.0,
                1.0, 1.0, 1.0);
 
 mat2 m2 = mat2(vec2(1.0), vec2(1.0));
 
-// or 
+// or
 
-mat2 m2 = mat2(1.0, 1.0, 
+mat2 m2 = mat2(1.0, 1.0,
                1.0, 1.0);
 
 ```
@@ -516,6 +516,7 @@ This project shows how to send values to a shader from the patch / material edit
 
 ### Advanced
 
+- Liquify
 - Optical Flow
 
 ### Builtins
