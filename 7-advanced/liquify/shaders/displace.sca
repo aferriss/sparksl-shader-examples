@@ -1,0 +1,13 @@
+precision highp float;
+using namespace std;
+
+vec4 main(Texture2d camTex, Texture2d dispTex) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  // Sample displacement
+  vec2 disp = dispTex.sample(uv).xy;
+
+  // Sample camera using displacemnt
+  vec4 cam = camTex.sample(disp).xyz1;
+  return cam;
+}

@@ -1,0 +1,23 @@
+precision highp float;
+using namespace std;
+
+vec4 main(Texture2d tex, vec2 touch, vec2 lastTouch, float isTouchDown, float brushSize, float reset) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+
+  vec4 color = tex.sample(uv);
+
+  // Displacement vector is diff of touches * a small circle
+  vec2 V = (touch - lastTouch) * smoothstep(brushSize, 0.0, length(uv - touch));
+
+  // If we're touching, displace the texture
+  if(isTouchDown > 0.0){
+    color = tex.sample(uv - 0.5 * V);
+  }
+
+  // Init displacement field
+  if( reset < 1.0){
+    color = uv.xy01;
+  }
+
+  return color;
+}
