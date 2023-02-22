@@ -1,0 +1,10 @@
+precision highp float;
+using namespace std;
+
+vec4 main() {
+  vec2 uv = fragment(std::getVertexTexCoord());
+  uv *= 10.0;
+  uv = fract(uv);
+  float c = step(uv.x, 0.5) * step(uv.y, 0.5) + step(0.5, uv.x) * step(0.5, uv.y);
+  return vec4(c).xyz1;
+}

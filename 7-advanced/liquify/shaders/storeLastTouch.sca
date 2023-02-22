@@ -1,0 +1,6 @@
+precision highp float;
+using namespace std;
+
+vec4 main(vec2 touch) {
+  return touch.xy01;
+}

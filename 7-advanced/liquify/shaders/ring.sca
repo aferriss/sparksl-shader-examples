@@ -1,0 +1,13 @@
+precision highp float;
+using namespace std;
+
+vec4 main(vec2 touch, float scale, float visibility) {
+  vec2 uv = fragment(std::getVertexTexCoord());
+  vec2 pixel = 1.0 / getRenderTargetSize();
+  float aspect = getRenderTargetSize().x / getRenderTargetSize().y;
+  float l = length(uv * vec2(aspect, 1) - touch * vec2(aspect, 1));
+  l = smoothstep(pixel.x * 2.0, pixel.x * 1.0, abs(l - scale * 0.4));
+
+  return vec4(l) * visibility;
+
+}
