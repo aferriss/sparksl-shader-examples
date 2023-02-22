@@ -6,9 +6,11 @@ const Time = require("Time");
 const TG = require("TouchGestures");
 const A = require("Animation");
 const IN = require("Instruction");
+const T = require("Textures");
 
 (async function () {
   IN.bind(true, "drag_to_change");
+
   // Init to no touching
   P.inputs.set("isTouchDown", 0);
   P.inputs.set("curX", 0);
