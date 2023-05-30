@@ -87,7 +87,7 @@ void main(out vec4 Position, out vec4 Color){
     // By default vertex attributes or calculations will happen in the vertex shader
     // You can force a calculation to the fragment shader by surrounding the function with fragment()
     vec2 uv = fragment(std::getVertexTexCoord());
-    Color = vec4(uv, 0.0, 1.0)
+    Color = vec4(uv, 0.0, 1.0);
 }
 ```
 
